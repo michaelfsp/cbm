@@ -110,6 +110,9 @@ while( (k<numrep) || (k>=numrep && k<numrep_med && flag==.5) || (k>=numrep && k<
             G  = G_tmp;
         end        
         
+        H_tmp = numericalHessian(h, tx);
+        H = H_tmp;
+        
         P   = [P; tx_tmp]; %#ok<AGROW>
         NLL = [NLL; F_tmp]; %#ok<AGROW>
     catch msg
@@ -137,3 +140,29 @@ function logging(verbose,fid,str)
 if verbose, fprintf(str); end
 if fid>1, fprintf(fid,str); end
 end
+
+function H = numericalHessian(f, x)
+    % Numerically estimate the Hessian matrix of function f at point x
+    % f - function handle
+    % x - point at which to evaluate the Hessian (column vector)
+    
+    n = length(x);
+    H = zeros(n,n);
+    epsilon = sqrt(eps); % Perturbation size, related to machine precision
+    for i = 1:n
+        for j = i:n % Hessian is symmetric
+            % Create perturbation vectors
+            ei = zeros(n,1); ej = ei;
+            ei(i) = epsilon; ej(j) = epsilon;
+            
+            % Approximate second partial derivatives
+            if i == j % Diagonal elements (second derivatives)
+                H(i,j) = (f(x+ei) - 2*f(x) + f(x-ei)) / epsilon^2;
+            else % Off-diagonal elements
+                H(i,j) = (f(x+ei+ej) - f(x+ei) - f(x+ej) + f(x)) / (4*epsilon^2);
+                H(j,i) = H(i,j); % Exploit symmetry
+            end
+        end
+    end
+end
+
