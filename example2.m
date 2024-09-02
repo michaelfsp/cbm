@@ -16,6 +16,7 @@ cbm_lap(data, @model_mb, prior_mb, fname_mb);
 % Running this command, prints a report on your matlab output 
 % (e.g. on the command window)
 
+%% 28
 % create a directory for individual output files:
 mkdir('lap_subjects');
 
@@ -36,6 +37,7 @@ fname_mf_subj = fullfile('lap_subjects','lap_mf_1.mat');
 
 cbm_lap(data_subj, @model_mf, prior_mf, fname_mf_subj);
 
+%% 29
 % first make a list of lap_mf_* files:
 fname_subjs = cell(20,1);
 for n=1:length(fname_subjs)
@@ -43,13 +45,13 @@ for n=1:length(fname_subjs)
 end
 fname_subjs
 
-
-
+%% 30
 fname_mf = 'lap_mf.mat';
 cbm_lap_aggregate(fname_subjs,fname_mf);
 % Running this command prints a report on your matlab output
 % (e.g. on the command window)
 
+%% 31
 % 1st input: data for all subjects
 fdata = load('all_data.mat');
 data  = fdata.data;
@@ -69,15 +71,17 @@ cbm_hbi(data,models,fcbm_maps,fname_hbi);
 % Running this command prints a report on your matlab output
 % (e.g. on the command window)
 
-
-
+%% 32
 fname_hbi = load('hbi_2step.mat');
 cbm   = fname_hbi.cbm;
 
+%% 33
 cbm.output.model_frequency
 
+%% 34
 cbm.output.exceedance_prob
 
+%% 35
 cd(fullfile('..','example_2step_task'))
 
 % 1st input is the file-address of the file saved by cbm_hbi
@@ -98,6 +102,7 @@ cbm_hbi_plot(fname_hbi, model_names, param_names, transform)
 % this function creates a model comparison plot (exceednace probability and model frequency) as well as 
 % a plot of transformed parameters of the most frequent model.
 
+%% 36
 % 1st input: the fitted cbm by cbm_hbi
 fname_hbi = 'hbi_2step';
 
@@ -112,6 +117,7 @@ i = 5; % here the weight parameter is the 5th parameter of the hybrid model
 
 [p,stats] = cbm_hbi_ttest(cbm,k,m,i)
 
+%% 37
 % 1st input: the fitted cbm by cbm_hbi
 fname_hbi = 'hbi_2step';
 
@@ -126,6 +132,7 @@ d = 6; % here the perseveration parameter is the 6th parameter of the hybrid mod
 
 [p,stats] = cbm_hbi_ttest(cbm,k,m,d)
 
+%% 38
 % 1st input is the file-address of the file saved by cbm_hbi
 fname_hbi = 'hbi_2step.mat';
 
